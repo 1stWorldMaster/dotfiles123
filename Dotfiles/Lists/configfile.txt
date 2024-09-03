@@ -3,3 +3,4 @@ rofi
 Thunar
 waybar
 kitty
+Scripts

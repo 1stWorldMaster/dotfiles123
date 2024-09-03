@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Get the directory where the script is located
-SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+SCRIPT_DIR="/home/notknown/dotfiles123/Dotfiles"
 
-# Path to the text file containing the list of source folders
-LIST_FILE="$SCRIPT_DIR/homeconfigfile.txt"
+# Path to the text file containing the list of source files and directories
+LIST_FILE="/home/notknown/dotfiles123/Dotfiles/Lists/homeconfigfile.txt"
 
 # Fixed destination directory
-DESTINATION_DIR="/home/notknown"
+DESTINATION_DIR="/home/notknown/"
 
 # Check if the list file exists
 if [ ! -f "$LIST_FILE" ]; then
@@ -22,19 +22,20 @@ if [ ! -d "$DESTINATION_DIR" ]; then
 fi
 
 # Read the list file line by line
-while IFS=' ' read -r SOURCE_DIR; do
-    # Construct absolute path for source
-    SOURCE_DIR="$SCRIPT_DIR/$SOURCE_DIR"
+while IFS=' ' read -r ITEM; do
+    # Construct absolute path for source, assuming paths in LIST_FILE are relative
+    SOURCE_PATH="/home/notknown/dotfiles123/Dotfiles/home/$ITEM"
 
-    # Check if the source directory exists
-    if [ -d "$SOURCE_DIR" ]; then
-        # Define the destination path
-        DEST_DIR="$DESTINATION_DIR/$(basename "$SOURCE_DIR")"
-
-        # Copy the source directory to the fixed destination, replacing it if it exists
-        cp -r "$SOURCE_DIR" "$DEST_DIR"
-        echo "Copied and replaced $SOURCE_DIR with $DEST_DIR."
+    # Check if the source path is a file or a directory
+    if [ -d "$SOURCE_PATH" ]; then
+        # Copy the directory
+        cp -r "$SOURCE_PATH" "$DESTINATION_DIR"
+        echo "Copied and replaced directory $SOURCE_PATH to $DESTINATION_DIR."
+    elif [ -f "$SOURCE_PATH" ]; then
+        # Copy the file
+        cp "$SOURCE_PATH" "$DESTINATION_DIR"
+        echo "Copied and replaced file $SOURCE_PATH to $DESTINATION_DIR."
     else
-        echo "Source directory $SOURCE_DIR does not exist."
+        echo "Source path $SOURCE_PATH does not exist."
     fi
 done < "$LIST_FILE"

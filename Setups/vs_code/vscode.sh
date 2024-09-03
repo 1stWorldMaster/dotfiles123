@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Directory where you want to save the files
-download_dir="downloaded_files"
+download_dir="/home/notknown/dotfiles123/Setups/vs_code/downloaded_files"
 
 
 
